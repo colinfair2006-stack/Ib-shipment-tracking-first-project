@@ -19,9 +19,11 @@ app.add_middleware(
 )
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
+from fastapi.responses import FileResponse
+
 @app.get("/")
 def home():
-    return {"message": "Shipment Tracker API is running!"}
+    return FileResponse("static/shipment-tracker.html")
 
 @app.post("/shipments/", response_model=schemas.ShipmentOut)
 def create_shipment(shipment: schemas.ShipmentCreate, db: Session = Depends(get_db)):
